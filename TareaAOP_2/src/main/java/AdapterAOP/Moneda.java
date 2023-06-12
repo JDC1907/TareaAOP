@@ -1,4 +1,4 @@
-package adapter;
+package AdapterAOP;
 
 public enum Moneda {
 	USD,

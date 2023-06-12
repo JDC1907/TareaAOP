@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author sebas
- *
- */
-module adapter {
-}
