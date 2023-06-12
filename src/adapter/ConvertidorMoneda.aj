@@ -1,5 +1,4 @@
 package adapter;
-import java.text.DecimalFormat;
 
 
 public aspect ConvertidorMoneda {
@@ -8,7 +7,7 @@ public aspect ConvertidorMoneda {
 	private double wonConversion= 0.00078;
 	private double pesoConversion= 0.058;
 	
-	pointcut convertirTransfer(Cuenta emisor, double monto, Cuenta receptor) : call(* Main.transferir(Cuenta, double, Cuenta)) && args(emisor, monto, receptor) ; 
+	pointcut convertirTransfer(Cuenta emisor, double monto, Cuenta receptor) : call(void Main.transferir(Cuenta, double, Cuenta)) && args(emisor, monto, receptor); 
     void around(Cuenta emisor, double monto, Cuenta receptor) : convertirTransfer(emisor, monto, receptor) {
         double montoconvertido = convertirReceptor(receptor, convertirEmisor(emisor, monto));
         proceed(emisor, montoconvertido, receptor);

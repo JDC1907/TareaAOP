@@ -1,20 +1,77 @@
-package adapter;
+package adapterOOP;
 
-public class Main {
+public class Transferencias {
+	private static double euroConversion= 1.07;
+	private static double yenConversion= 0.0072;
+	private static double wonConversion= 0.00078;
+	private static double pesoConversion= 0.058;
 	
 	
 	
 	public static void transferir(Cuenta emisor, double monto, Cuenta receptor) {
 		//El monto a enviar siempre esta en la misma moneda que la cuenta de la que proviene
 		//asumimos verifacion que no trata de transferir mas de lo que tiene, etc
-		
-		receptor.setCantidad(receptor.getCantidad()+monto);
+		double montoEmitir=convertirUSD(emisor, monto);
+		double montoRecibir=convertirOriginal(receptor, montoEmitir);
+		receptor.setCantidad(receptor.getCantidad()+montoRecibir);
+		emisor.setCantidad(emisor.getCantidad()-monto);
 		 
 	}
 
+	private static double convertirUSD(Cuenta emisor, double monto) {
+		double m=0;
+		switch(emisor.getMoneda()) {
+		case USD:
+			m=monto;
+			break;
+		case EURO:
+			m=monto*euroConversion;
+			break;
+		case YEN:
+			m=monto*yenConversion;
+			break;
+		case WON:
+			m=monto*wonConversion;
+			break;
+		case PESO:
+			m=monto*pesoConversion;
+			break;
+		}
+		
+		return m;
+	}
+	
+	
+	
+	private static double convertirOriginal(Cuenta receptor, double cant) {
+		double m=0;
+		switch(receptor.getMoneda()) {
+		case USD:
+			m= cant;
+			break;
+		case EURO:
+			m= cant/euroConversion;
+			break;
+		case YEN:
+			m= cant/yenConversion;
+			break;
+		case WON:
+			m= cant/wonConversion;
+			break;
+		case PESO:
+			m= cant/pesoConversion;
+			break;
+		}
+		
+		return m;
+	}
+	
+	
+	
+
 
 	public static void main(String[] args) {
-		System.out.println("Cuentas AspectJ: ");
+		System.out.println("Cuentas JAVA: ");
 		
 		Cuenta cuenta1= new Cuenta(100000,Moneda.YEN,"Cuenta1");
 		System.out.println(cuenta1);
