@@ -1,4 +1,6 @@
 package adapter;
+import java.text.DecimalFormat;
+
 
 public aspect ConvertidorMoneda {
 	private double euroConversion= 1.07;
@@ -9,44 +11,58 @@ public aspect ConvertidorMoneda {
 	pointcut convertirTransfer(Cuenta emisor, double monto, Cuenta receptor) : call(* Main.transferir(Cuenta, double, Cuenta)) && args(emisor, monto, receptor) ; 
     void around(Cuenta emisor, double monto, Cuenta receptor) : convertirTransfer(emisor, monto, receptor) {
         double montoconvertido = convertirReceptor(receptor, convertirEmisor(emisor, monto));
-        System.out.println(montoconvertido);
         proceed(emisor, montoconvertido, receptor);
+        emisor.setCantidad(emisor.getCantidad()-monto);
     }
 	
 	
 
 	private double convertirEmisor(Cuenta emisor, double monto) {
+		double m=0;
 		switch(emisor.getMoneda()) {
 		case USD:
-			return monto;
+			m=monto;
+			break;
 		case EURO:
-			return monto*euroConversion;
+			m=monto*euroConversion;
+			break;
 		case YEN:
-			return monto*yenConversion;
+			m=monto*yenConversion;
+			break;
 		case WON:
-			return monto*wonConversion;
+			m=monto*wonConversion;
+			break;
 		case PESO:
-			return monto*pesoConversion;
+			m=monto*pesoConversion;
+			break;
 		}
-		return 0;
+		
+		return m;
 	}
 	
 	
 	
 	private double convertirReceptor(Cuenta receptor, double cant) {
+		double m=0;
 		switch(receptor.getMoneda()) {
 		case USD:
-			return cant;
+			m= cant;
+			break;
 		case EURO:
-			return cant/euroConversion;
+			m= cant/euroConversion;
+			break;
 		case YEN:
-			return cant/yenConversion;
+			m= cant/yenConversion;
+			break;
 		case WON:
-			return cant/wonConversion;
+			m= cant/wonConversion;
+			break;
 		case PESO:
-			return cant/pesoConversion;
+			m= cant/pesoConversion;
+			break;
 		}
-		return 0;
+		
+		return m;
 	}
 	
 	

@@ -27,7 +27,7 @@ public class Cuenta {
 	
 	@Override
 	public String toString() {
-		return nombre+" - Cantidad: "+cantidad+" - Moneda:"+moneda;
+		return nombre+" - Cantidad: "+cantidad+" "+moneda;
 	}
 	public String getNombre() {
 		return nombre;
